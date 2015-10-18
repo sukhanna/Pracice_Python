@@ -5,6 +5,7 @@ from Algorithm.StackAlgorithms import StackAlgorithms
 from Algorithm.LinkList import List
 from Algorithm.Recursion import is_palindrome
 from Algorithm.Sort import Sort
+from Algorithm.BinaryTreeAlgorithms import BinaryTreeAlgorithms
 import time
 import random
 
@@ -49,9 +50,25 @@ print(is_palindrome("heloo", len("heloo")))
 print(is_palindrome("abcdefghijkl", len("abcdefghijkl")))
 
 # test for quick sort
-random_list = random.sample(range(10000000), 1000000)
+random_list = random.sample(range(100), 100)
 t1 = time.time()
 Sort.quick_sort1(random_list, 0, len(random_list)-1, 0)
 t2 = time.time()
 print(random_list)
 print("time in seconds %d" %(t2-t1))
+
+#test for binary tree : building expression trees
+tree = BinaryTreeAlgorithms.build_expression_tree("( ( 10 + 5 ) * 3 )")
+
+print("--------print_in_order tree expression")
+print(BinaryTreeAlgorithms.print_in_order(tree))
+
+print("--------Post order evaluation---------------")
+print(BinaryTreeAlgorithms.post_order_evaluate(tree))
+
+tree = BinaryTreeAlgorithms.build_expression_tree("( a + ( ( b - c ) * d )")
+print("----------------Pre Order---------------------")
+BinaryTreeAlgorithms.pre_order(tree)
+
+print("----------------Post Order---------------------")
+BinaryTreeAlgorithms.post_order(tree)
