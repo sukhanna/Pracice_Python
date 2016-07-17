@@ -12,6 +12,15 @@ def poker(hands):
 def allmax(iterable, key=None):
     "Return a list of all items equal to the max of the iterable."
     # Your code here.
+    result, maxValue = [], None
+    lam = key or (lamda x : x)
+    for hand in iterable:
+        xValue = key(hand)
+        if not result or xValue > maxValue:
+            result, maxValue = [hand], xValue
+        elif xValue == maxValue:
+            result.append(hand)
+    return result
 
 def hand_rank(hand):
     "Return a value indicating the ranking of a hand."
@@ -72,5 +81,11 @@ def test():
     sf2 = "6D 7D 8D 9D TD".split() # Straight Flush
     fk = "9D 9H 9S 9C 7D".split() # Four of a Kind
     fh = "TD TC TH 7C 7D".split() # Full House
-    assert poker([sf1, sf2, fk, fh]) == [sf1, sf2] 
+    al = "AC 2D 4H 3D 5S".split() # Ace-Low Straight
+    fkranks = card_ranks(fk)
+    tpranks = card_ranks(tp)
+    assert kind(4, fkranks) == 9
+    assert kind(3, fkranks) == None
+    assert kind(2, fkranks) == None
+    assert kind(1, fkranks) == 7 
     return 'tests pass'
