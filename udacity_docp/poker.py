@@ -100,8 +100,8 @@ def best_hand(hand):
     hands = list(itertools.combinations(hand, 5))
     #ranks = [hand_rank(h) for h in hands]
     for h in hands:
-        print h
-        print hand_rank(h)
+        print(h)
+        print (hand_rank(h))
     
 def test():
     "Test cases for the functions in poker program."
@@ -111,12 +111,13 @@ def test():
     fh = "TD TC TH 7C 7D".split() # Full House
     al = "AC 2D 4H 3D 5S".split() # Ace-Low Straight
     fkranks = card_ranks(fk)
-    tpranks = card_ranks(tp)
+    #tpranks = card_ranks(tp)
     assert kind(4, fkranks) == 9
     assert kind(3, fkranks) == None
     assert kind(2, fkranks) == None
     assert kind(1, fkranks) == 7
-    print deal(4)
+    print (deal(4))
     return 'tests pass'
 
-best_hand("6C 7C 8C 9C TC TC TC".split())
+
+test();
