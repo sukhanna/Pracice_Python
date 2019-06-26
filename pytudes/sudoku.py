@@ -63,3 +63,19 @@ def test():
                                'C1', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9',
                                'A1', 'A3', 'B1', 'B3'])
     print("All tests pass.")
+
+def parse_grid(grid):
+    """ Convert grid into dictionary of {square:digits} where square is 'A1', "A2'..
+        and digits are '123456789' or return FALSE if contradiction is detected."""
+    ## To start, every square can be a digit; then assign values from the grid.
+    values = dict((s, digits) for s in squares)
+    for s,d in grid_values(grid).items():
+        if d in digits and not assign(values, s, d):
+            return False ## (Fail if we can't assign d to square s.)
+    return values
+
+def grid_values(grid):
+    "Convert grid into a dict of {square: char} with '0' or '.' for empties."
+    chars = [c for c in grid if c in digits or c in '0.']
+    assert len(chars) == 81
+    return dict(zip(squares, chars))
