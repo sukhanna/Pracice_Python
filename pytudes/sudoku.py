@@ -79,3 +79,50 @@ def grid_values(grid):
     chars = [c for c in grid if c in digits or c in '0.']
     assert len(chars) == 81
     return dict(zip(squares, chars))
+
+# It turns out that the fundamental operation is not assigning a value, but rather eliminating
+# one of the possible values for a square, which we implement with eliminate(values, s, d).
+# Once we have eliminate, then assign(values, s, d) can be defined as "eliminate all the values from s except d".
+
+def assign(values, s, d):
+    """Eliminate all the other values (except d) from values[s] and propogate.
+    Return values, except return FALSE if a contrdiction is detected."""
+    other_values = values[s].replace(d, "")
+    if all(eliminate(values, s, d2) for d2 in other_values):
+        return values
+    else:
+        return False
+
+def eliminate(values, s, d):
+    """Eliminate d from values[s]; propogate when values or places <= 2.
+    Return vaues, except return False if a contradiction is detected."""
+    if d not in values[s]:
+        return values ## Already eliminiated
+    values[s] = values[s].replace(d, '')
+    ## (1) If a square s is reduced to one value d2, then eliminate d2 from the peers.
+    if len(values[s]) == 0:
+        return False ## Contradiction: removed last value
+    elif len(values[s]) == 1:
+        d2 = values[s]
+        if not all(eliminate(values, s2, d2) for s2 in peers[s]):
+            return False
+    ## (2) If a unit u is reduced to only one place for a value d, then put it there.
+    for u in units[s]:
+        dplaces = [s for s in u if d in values[s]]
+        if len(dplaces) == 0:
+            return False ## Contradiction: no place for this value
+        elif len(dplaces) == 1:
+            # d can only be in one place in unit; assign it there
+            if not assign(values, dplaces[0], d):
+                return False
+    return values
+
+def display(values):
+    "Display these values as a 2-D grid."
+    width = 1+max(len(values[s]) for s in squares)
+    line = '+'.join(['-'*(width*3)]*3)
+    for r in rows:
+        print(''.join(values[r+c].center(width)+('|' if c in '36' else '') for c in cols))
+        if r in 'CF':
+            print(line)
+    print()
