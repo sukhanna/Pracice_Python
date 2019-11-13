@@ -37,6 +37,7 @@ def main():
 
 # recursive way to calculate palindrome
 # i.e. radar is palindrome
+# test
 def is_palindrome(s, length):
     if s[0] != s[length-1]:
         return False
